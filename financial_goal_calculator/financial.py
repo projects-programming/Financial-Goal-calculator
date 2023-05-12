@@ -4,7 +4,7 @@ import random
 import PyQt6.QtCore as QtCore
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtWidgets import ( QWidget, QApplication, QMainWindow, QLabel,
-                             QPushButton, QVBoxLayout, QLineEdit, QGridLayout)
+                             QPushButton, QVBoxLayout, QLineEdit, QGridLayout, QSpinBox)
 
 class MainWindow(QMainWindow):
 
@@ -18,32 +18,33 @@ class MainWindow(QMainWindow):
         font = app_title.font()
         font.setPointSize(18)
         app_title.setFont(font)
-
+        app_title.setStyleSheet("QLabel { background-color : orange; color : black; }");
 
         # Adding wage_prompt line edit widgit
-        wage_prompt = QLineEdit()
-        wage_prompt.setMaxLength(50)
-        wage_prompt.setPlaceholderText("Enter your hourly wage amount in digits")
+        self.wage_prompt = QLineEdit()
+        self.wage_prompt.setMaxLength(50)
+        self.wage_prompt.setPlaceholderText("Enter your hourly wage amount in digits")
+        self.wage_prompt.setStyleSheet("QLineEdit { background-color : black; color : orange; }");
         
         # Adding goal_prompt line edit widget
-        goal_prompt = QLineEdit()
-        goal_prompt.setMaxLength(100)
-        goal_prompt.setPlaceholderText("Enter your goal amount you would like to reach in digits")
+        self.goal_prompt = QLineEdit()
+        self.goal_prompt.setMaxLength(100)
+        self.goal_prompt.setPlaceholderText("Enter your goal amount you would like to reach in digits")
+        self.goal_prompt.setStyleSheet("QLineEdit { background-color : black; color : orange; }");
 
         # Adding calculate button
-        calculate_button = QPushButton("Calculate")
+        self.calculate_button = QPushButton("Calculate")
+        self.calculate_button.setStyleSheet("QPushButton { background-color : black; color : orange; }");
+        # add a calculate function
+        self.calculate_button.clicked.connect(self.calculate_financial_goal)
 
         # Adding a way to present the data calculated
-        present_data = QLabel("You will need to work ____ "  "hours to reach your goal.")
-        font = present_data.font()
+        self.present_data = QLabel("You will need to work ____ "  "hours to reach your goal.")
+        font = self.present_data.font()
         font.setPointSize(14)
-        present_data.setFont(font)
+        self.present_data.setFont(font)
+        self.present_data.setStyleSheet("QLabel { background-color : black; color : orange; }");
         #widget.setReadOnly(True) # uncomment this to make readonly
-
-        wage_prompt.returnPressed.connect(self.return_pressed)
-        wage_prompt.selectionChanged.connect(self.selection_changed)
-        wage_prompt.textChanged.connect(self.text_changed)
-        wage_prompt.textEdited.connect(self.text_edited)
 
         # Adding a Layout
         layout = QGridLayout()
@@ -51,29 +52,34 @@ class MainWindow(QMainWindow):
         widget.setLayout(layout)
 
         layout.addWidget(app_title, 0, 0, Qt.AlignmentFlag.AlignHCenter)
-        layout.addWidget(wage_prompt, 1, 0)
-        layout.addWidget(goal_prompt, 2, 0)
-        layout.addWidget(calculate_button, 3, 0)
-        layout.addWidget(present_data, 4, 0, Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(self.wage_prompt, 1, 0)
+        layout.addWidget(self.goal_prompt, 2, 0)
+        layout.addWidget(self.calculate_button, 3, 0)
+        layout.addWidget(self.present_data, 4, 0, Qt.AlignmentFlag.AlignHCenter)
 
         self.setCentralWidget(widget)
+    
+    def calculate_financial_goal(self):
+        """Calculate hours to reach users goal"""
 
-    def return_pressed(self):
-        print("Return pressed!")
-        self.centralWidget().setText("BOOM!")
+        # Get hourly wage, converted the string to a floating number
+        hourly_wage = self.wage_prompt.displayText()
+        print(hourly_wage)
+        wage_entered = self.wage_prompt.text()
+        wage = float(wage_entered)
 
-    def selection_changed(self):
-        print("Selection changed")
-        print(self.centralWidget().selectedText())
+        # Get goal amount, converted the string to a floating number
+        goal_amount = self.goal_prompt.displayText()
+        print(goal_amount)
+        amount_entered = self.goal_prompt.text()
+        amount = float(amount_entered)
 
-    def text_changed(self, s):
-        print("Text changed...")
-        print(s)
-
-    def text_edited(self, s):
-        print("Text edited...")
-        print(s)
-
+        # Calculate the hours needed to work to reach the goal amount
+        data_calculation = amount/wage
+        print(data_calculation)
+        
+        # Display results
+        self.present_data.setText("You will need to work " + str(data_calculation) + " hours to reach your goal.")
     
 if __name__ =="__main__":
     app = QApplication(sys.argv)
