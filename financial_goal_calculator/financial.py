@@ -18,23 +18,24 @@ class MainWindow(QMainWindow):
         font = app_title.font()
         font.setPointSize(18)
         app_title.setFont(font)
-        app_title.setStyleSheet("QLabel { background-color : orange; color : black; }");
+        app_title.setStyleSheet("QLabel { background-color : #27374D; color : #DDE6ED; }");
 
         # Adding wage_prompt line edit widgit
         self.wage_prompt = QLineEdit()
         self.wage_prompt.setMaxLength(50)
         self.wage_prompt.setPlaceholderText("Enter your hourly wage amount in digits")
-        self.wage_prompt.setStyleSheet("QLineEdit { background-color : black; color : orange; }");
-        
+        self.wage_prompt.setStyleSheet("QLineEdit { background-color : #27374D; color : #DDE6ED; }");
+    
         # Adding goal_prompt line edit widget
         self.goal_prompt = QLineEdit()
         self.goal_prompt.setMaxLength(100)
         self.goal_prompt.setPlaceholderText("Enter your goal amount you would like to reach in digits")
-        self.goal_prompt.setStyleSheet("QLineEdit { background-color : black; color : orange; }");
+        self.goal_prompt.setStyleSheet("QLineEdit { background-color : #27374D; color : #DDE6ED; }");
+        self.setStyleSheet("background-color: #27374D;")
 
         # Adding calculate button
         self.calculate_button = QPushButton("Calculate")
-        self.calculate_button.setStyleSheet("QPushButton { background-color : black; color : orange; }");
+        self.calculate_button.setStyleSheet("QPushButton { background-color : #526D82; color : #DDE6ED; }");
         # add a calculate function
         self.calculate_button.clicked.connect(self.calculate_financial_goal)
 
@@ -43,7 +44,7 @@ class MainWindow(QMainWindow):
         font = self.present_data.font()
         font.setPointSize(14)
         self.present_data.setFont(font)
-        self.present_data.setStyleSheet("QLabel { background-color : black; color : orange; }");
+        self.present_data.setStyleSheet("QLabel { background-color : #27374D; color : #DDE6ED; }");
         #widget.setReadOnly(True) # uncomment this to make readonly
 
         # Adding a Layout
